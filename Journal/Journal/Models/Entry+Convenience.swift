@@ -9,13 +9,24 @@
 import Foundation
 import CoreData
 
+enum Mood: String {
+    case 🙁
+    case 😐
+    case 🙂
+    
+    static var allMooods: [Mood] {
+        return [.🙁, .😐, .🙂]
+    }
+}
+
 extension Entry {
     @discardableResult
-    convenience init(title: String, bodyText: String, timestamp: Date = Date(), identifier: String = Date().description, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+    convenience init(title: String, bodyText: String, timestamp: Date = Date(), identifier: String = Date().description, mood: Mood = .😐, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         self.init(context: context)
         self.title = title
         self.bodyText = bodyText
         self.timestamp = timestamp
         self.identifier = identifier
+        self.mood = mood.rawValue
     }
 }

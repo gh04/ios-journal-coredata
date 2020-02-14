@@ -45,7 +45,7 @@ class EntryController {
     // MARK: - CRUD
     
     func createEntry(title: String, bodyText: String) {
-        entries.append(Entry(title: title, bodyText: bodyText))
+        entries.append(Entry()
         
         saveToPersistentStore()
     }
