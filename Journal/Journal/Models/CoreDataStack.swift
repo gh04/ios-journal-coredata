@@ -14,15 +14,15 @@ import CoreData
 class CoreDataStack {
     
     //MARK: Properties
-    static let shared = CoreDataStack()
+     private init () {}
     
-    private init () {}
+    static let shared = CoreDataStack()
     
     lazy var container: NSPersistentContainer = {
         let newContainer = NSPersistentContainer(name: "Entry")
         newContainer.loadPersistentStores { (_, error) in
             if let error = error {
-                fatalError("Faied to load persistent stores: \(error)")
+                fatalError("Failed to load persistent stores: \(error)")
             }
         }
         return newContainer

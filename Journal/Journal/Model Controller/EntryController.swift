@@ -13,7 +13,7 @@ class EntryController {
     
     //MARK: - Properties
     
-    lazy private (set) var entries: [Entry] = {
+      lazy var entries: [Entry] = {
         loadFromPersistentStore()
     }()
     
@@ -32,6 +32,7 @@ class EntryController {
     func loadFromPersistentStore() -> [Entry] {
         
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "identifier == %@", UUID().uuidString)
         let moc = CoreDataStack.shared.mainContext
         do {
             return try moc.fetch(fetchRequest)
@@ -44,8 +45,8 @@ class EntryController {
     
     // MARK: - CRUD
     
-    func createEntry(title: String, bodyText: String) {
-        entries.append(Entry()
+    func createEntry(title: String, bodyText: String, timestamp: Date, identifier: String, mood: Mood ) {
+        let _ = Entry(title: title, bodyText: bodyText, timestamp: timestamp, identifier: identifier, mood: mood)
         
         saveToPersistentStore()
     }

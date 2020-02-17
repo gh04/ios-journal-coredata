@@ -52,7 +52,7 @@ class EntryDetailViewController: UIViewController {
         if let entry = entry {
             entryController?.updateEntry(entry, newTitle: title, newbodyText: bodyText)
         } else {
-            entryController?.createEntry(title: title, bodyText: bodyText)
+            entryController?.createEntry(title: title, bodyText: bodyText, timestamp: Date(), identifier: UUID().uuidString, mood: .🙂)
             
         }
         
