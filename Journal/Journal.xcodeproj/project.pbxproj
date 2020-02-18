@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6356B8DE23FC5B400006DC6B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6356B8DD23FC5B400006DC6B /* GoogleService-Info.plist */; };
 		63E5A4FF23F4E72000BC2BC7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E5A4FE23F4E72000BC2BC7 /* AppDelegate.swift */; };
 		63E5A50123F4E72000BC2BC7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E5A50023F4E72000BC2BC7 /* SceneDelegate.swift */; };
 		63E5A50623F4E72000BC2BC7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 63E5A50423F4E72000BC2BC7 /* Main.storyboard */; };
@@ -23,6 +24,7 @@
 
 /* Begin PBXFileReference section */
 		6356B8D623FB72A30006DC6B /* Journal 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Journal 2.xcdatamodel"; sourceTree = "<group>"; };
+		6356B8DD23FC5B400006DC6B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		63E5A4FB23F4E72000BC2BC7 /* Journal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Journal.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		63E5A4FE23F4E72000BC2BC7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		63E5A50023F4E72000BC2BC7 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -75,6 +77,7 @@
 				63E5A50723F4E72800BC2BC7 /* Assets.xcassets */,
 				63E5A50923F4E72800BC2BC7 /* LaunchScreen.storyboard */,
 				63E5A50423F4E72000BC2BC7 /* Main.storyboard */,
+				6356B8DD23FC5B400006DC6B /* GoogleService-Info.plist */,
 				63E5A52423F4F8A100BC2BC7 /* Model Controller */,
 				63E5A52723F4F8F800BC2BC7 /* Models */,
 				63E5A52623F4F8D700BC2BC7 /* View Controller */,
@@ -177,6 +180,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				63E5A50B23F4E72800BC2BC7 /* LaunchScreen.storyboard in Resources */,
+				6356B8DE23FC5B400006DC6B /* GoogleService-Info.plist in Resources */,
 				63E5A50823F4E72800BC2BC7 /* Assets.xcassets in Resources */,
 				63E5A50623F4E72000BC2BC7 /* Main.storyboard in Resources */,
 			);
