@@ -9,21 +9,83 @@
 import Foundation
 import CoreData
 
+let baseURL = URL(string: "https://journal-day-3-8b31f.firebaseio.com/")!
 
 class EntryController {
     
+    typealias completionHandler = (Error?) -> Void
+   
     //MARK: - Properties
     
     lazy private (set) var entries: [Entry] = {
         loadFromPersistentStore()
     }()
     
+    func put(entry: Entry, completion: @escaping completionHandler = { _ in }) {
+        let uuid = entry.identifier ?? UUID().uuidString
+        let requestURL = baseURL.appendingPathComponent(uuid).appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "PUT"
+        
+        do {
+            guard var representation = entry.entryRepresentation else {
+                //catch these errors gracefully. Ex. in previous modules
+                completion(NSError())
+                return
+            }
+            representation.identifier = uuid
+            entry.identifier = uuid
+            saveToPersistentStore()
+            request.httpBody = try JSONEncoder().encode(representation)
+        } catch {
+            print("Error encoding entry \(entry): \(error)")
+            completion(error)
+            return
+        }
+        
+        URLSession.shared.dataTask(with: request) { (data, _, error) in
+            guard error == nil else {
+                print("Error PUTing entry to server: \(error!)")
+                DispatchQueue.main.async {
+                    completion(nil)
+                }
+                return
+            }
+            DispatchQueue.main.async {
+                completion(nil)
+            }
+        }.resume()
+    }
+    
+    func deleTaskFromServer(_ entry: Entry, completion: @escaping completionHandler = { _ in }) {
+        guard let uuid = entry.identifier else {
+            completion(NSError())
+            return
+        }
+        
+        let requestURL = baseURL.appendingPathComponent(uuid).appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "DELETE"
+        
+        URLSession.shared.dataTask(with: request) { (_, _, error) in
+            guard error == nil else {
+                print("Error deleting task: \(error!)")
+                DispatchQueue.main.async {
+                    completion(error)
+                }
+                return
+            }
+            DispatchQueue.main.async {
+                completion(nil)
+            }
+        }.resume()
+    }
+    
     // MARK: - Persistence
     func saveToPersistentStore() {
          let moc = CoreDataStack.shared.mainContext
         do {
             //managed object context
-           
             try moc.save()
         } catch {
             moc.reset()
@@ -48,9 +110,9 @@ class EntryController {
     // MARK: - CRUD
     
     func createEntry(title: String, bodyText: String, mood: String) {
-        Entry(title: title, bodyText: bodyText, mood: mood)
-        
-        saveToPersistentStore()
+       let entry = Entry(title: title, bodyText: bodyText, mood: mood)
+        put(entry: entry)
+//        saveToPersistentStore()
     }
     
     func updateEntry(_ entry: Entry, newTitle: String, newbodyText: String, updatedMood: String) {
@@ -60,15 +122,17 @@ class EntryController {
         entry.title = newTitle
         entry.bodyText = newbodyText
         entry.timestamp = updatedTimestamp
-        saveToPersistentStore()
+        put(entry: entry)
+//        saveToPersistentStore()
         
     
     }
     
-    func deleteEntry(_ entry: Entry) {
+    func delete(_ entry: Entry) {
         let moc = CoreDataStack.shared.mainContext
         moc.delete(entry)
-        saveToPersistentStore()
+        deleTaskFromServer(entry)
+//        saveToPersistentStore()
 
         
     }

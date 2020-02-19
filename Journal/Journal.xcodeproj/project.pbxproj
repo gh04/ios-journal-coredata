@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -21,6 +21,7 @@
 		63E5A51F23F4F51100BC2BC7 /* Entry.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 63E5A51D23F4F51100BC2BC7 /* Entry.xcdatamodeld */; };
 		63E5A52123F4F60D00BC2BC7 /* Entry+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E5A52023F4F60D00BC2BC7 /* Entry+Convenience.swift */; };
 		63E5A52323F4F83800BC2BC7 /* EntryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E5A52223F4F83800BC2BC7 /* EntryController.swift */; };
+		63F7C45D23FD07F3004420C0 /* EntryRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F7C45C23FD07F3004420C0 /* EntryRepresentation.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,6 +42,7 @@
 		63E5A51E23F4F51100BC2BC7 /* Journal.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Journal.xcdatamodel; sourceTree = "<group>"; };
 		63E5A52023F4F60D00BC2BC7 /* Entry+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Entry+Convenience.swift"; sourceTree = "<group>"; };
 		63E5A52223F4F83800BC2BC7 /* EntryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryController.swift; sourceTree = "<group>"; };
+		63F7C45C23FD07F3004420C0 /* EntryRepresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryRepresentation.swift; sourceTree = "<group>"; };
 		93EACB09E2766E2B411AF40D /* Pods_Journal.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Journal.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED902F7B223E4DAC1F909622 /* Pods-Journal.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Journal.debug.xcconfig"; path = "Target Support Files/Pods-Journal/Pods-Journal.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -122,8 +124,9 @@
 			isa = PBXGroup;
 			children = (
 				63E5A51823F4F19800BC2BC7 /* CoreDataStack.swift */,
-				63E5A52023F4F60D00BC2BC7 /* Entry+Convenience.swift */,
 				63E5A51D23F4F51100BC2BC7 /* Entry.xcdatamodeld */,
+				63E5A52023F4F60D00BC2BC7 /* Entry+Convenience.swift */,
+				63F7C45C23FD07F3004420C0 /* EntryRepresentation.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -134,7 +137,6 @@
 				ED902F7B223E4DAC1F909622 /* Pods-Journal.debug.xcconfig */,
 				267AF24D1577046032BF26B8 /* Pods-Journal.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -263,6 +265,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				63E5A51923F4F19800BC2BC7 /* CoreDataStack.swift in Sources */,
+				63F7C45D23FD07F3004420C0 /* EntryRepresentation.swift in Sources */,
 				63E5A52123F4F60D00BC2BC7 /* Entry+Convenience.swift in Sources */,
 				63E5A52323F4F83800BC2BC7 /* EntryController.swift in Sources */,
 				63E5A51323F4E92800BC2BC7 /* EntriesTableViewController.swift in Sources */,

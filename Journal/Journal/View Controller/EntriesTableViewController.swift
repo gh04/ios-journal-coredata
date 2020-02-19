@@ -71,7 +71,7 @@ class EntriesTableViewController: UITableViewController {
         if editingStyle == .delete {
             // Delete the row from the data source
             let entry = fetchedResultsController.object(at: indexPath)
-            entryController.deleteEntry(entry)
+            entryController.delete(entry)
            
         } else if editingStyle == .insert {
             entryController.updateEntry(entryController.entries[indexPath.row], newTitle: entryController.entries[indexPath.row].title ?? "", newbodyText: entryController.entries[indexPath.row].bodyText ?? "", updatedMood: entryController.entries[indexPath.row].mood ?? "")
