@@ -15,11 +15,15 @@ class EntryController {
     
     typealias completionHandler = (Error?) -> Void
    
+    
+    init() {
+        fetchEntriesFromServer()
+    }
     //MARK: - Properties
     
-    lazy private (set) var entries: [Entry] = {
-        loadFromPersistentStore()
-    }()
+//    lazy private (set) var entries: [Entry] = {
+//        loadFromPersistentStore()
+//    }()
     
     func put(entry: Entry, completion: @escaping completionHandler = { _ in }) {
         let uuid = entry.identifier ?? UUID().uuidString
@@ -57,6 +61,48 @@ class EntryController {
         }.resume()
     }
     
+    func fetchEntriesFromServer(completion: @escaping completionHandler = { _ in }) {
+        let requestURL = baseURL.appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "GET"
+        
+        URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
+         
+            guard error == nil else {
+                print("Error fetching tasks: \(error!)")
+                DispatchQueue.main.async {
+                    completion(error)
+                }
+                return
+            }
+            
+            guard let data = data else {
+                print("No data returned by data task")
+                DispatchQueue.main.async {
+                    completion(nil)
+                }
+                return
+            }
+            
+            let jsonDecoder = JSONDecoder()
+            jsonDecoder.dateDecodingStrategy = .iso8601
+            
+            do {
+                let entryRepresentations = Array(try jsonDecoder.decode([String : EntryRepresentation].self, from: data).values)
+                try self.updateEntries(with: entryRepresentations)
+                DispatchQueue.main.async {
+                    completion(nil)
+                }
+            } catch {
+                print("Error decoding task representations: \(error)")
+                DispatchQueue.main.async {
+                    completion(error)
+                }
+            }
+        }.resume()
+        
+    }
+    
     func deleTaskFromServer(_ entry: Entry, completion: @escaping completionHandler = { _ in }) {
         guard let uuid = entry.identifier else {
             completion(NSError())
@@ -81,8 +127,45 @@ class EntryController {
         }.resume()
     }
     
+    func updateEntries(with representations: [EntryRepresentation]) throws {
+        let entriesWithID = representations.filter { $0.identifier != nil }
+        let identifiersToFetch = representations.compactMap { $0.identifier }
+        let representationsByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, entriesWithID))
+        var entriesToCreate = representationsByID
+        
+        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "identifier IN $@", identifiersToFetch)
+        
+        let context = CoreDataStack.shared.mainContext
+        
+        do {
+            let existingEntries = try context.fetch(fetchRequest)
+            
+            for entry in existingEntries {
+                guard let id = entry.identifier,
+                    let representation = representationsByID[id] else { continue }
+                self.update(entry: entry, with: representation)
+                entriesToCreate.removeValue(forKey: id)
+            }
+            for representation in entriesToCreate.values {
+                Entry(entryRepresentation: representation, context: context)
+            }
+        } catch {
+            print("Error fetching task for UUIDs: \(error)")
+        }
+        saveToPersistentStore()
+    }
+    
+    private func update(entry: Entry, with representation: EntryRepresentation) {
+        entry.title = representation.title
+        entry.bodyText = representation.bodyText
+        entry.timestamp = representation.timestamp
+        entry.identifier = representation.identifier
+        entry.mood = representation.mood
+    }
+    
     // MARK: - Persistence
-    func saveToPersistentStore() {
+  private func saveToPersistentStore() {
          let moc = CoreDataStack.shared.mainContext
         do {
             //managed object context
